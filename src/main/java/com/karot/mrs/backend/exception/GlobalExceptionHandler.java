@@ -83,7 +83,7 @@ public class GlobalExceptionHandler {
         return switch (messageKey) {
             case "USER_ALREADY_EXISTS" -> HttpStatus.CONFLICT;
             case "INVALID_CREDENTIALS" -> HttpStatus.UNAUTHORIZED;
-            case "USER_NOT_FOUND" -> HttpStatus.NOT_FOUND;
+            case "USER_NOT_FOUND", "MOVIE_NOT_FOUND", "THEATER_NOT_FOUND" -> HttpStatus.NOT_FOUND;
             default -> HttpStatus.BAD_REQUEST;
         };
     }

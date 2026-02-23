@@ -1,38 +1,44 @@
 package com.karot.mrs.backend.entity;
 
-import com.karot.mrs.backend.dto.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
+@Table(name = "movies")
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String email;
-    private String firstName;
-    private String lastName;
-    private String gender;
+    @Column(nullable = false)
+    private String title;
 
     @Column(nullable = false)
-    private String password;
+    private Long duration;
 
-    @Enumerated(EnumType.STRING)
+    private String description;
+
     @Column(nullable = false)
-    private Role role;
+    private String genre;
+
+    private LocalDate releaseDate;
+    private String director;
+    private String actors;
+
+    @Column(nullable = false)
+    private String language;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -40,14 +46,16 @@ public class User {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "user")
-    private List<Reservation> reservations;
+    @Column(nullable = false)
+    @Version
+    private Long version;  // Optimistic locking for concurrent updates
+
+    @OneToMany(mappedBy = "movie")
+    private List<Showtime> showtimes;
 
     @PrePersist
     protected void onCreate() {
-        if (createdAt == null) {
-            createdAt = LocalDateTime.now();
-        }
+        createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
     }
 

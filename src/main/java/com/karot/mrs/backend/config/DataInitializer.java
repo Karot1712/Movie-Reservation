@@ -1,13 +1,15 @@
 package com.karot.mrs.backend.config;
 
-import com.karot.mrs.backend.dto.Role;
-import com.karot.mrs.backend.entity.User;
-import com.karot.mrs.backend.repositories.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import com.karot.mrs.backend.dto.Role;
+import com.karot.mrs.backend.entity.User;
+import com.karot.mrs.backend.repositories.UserRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
@@ -23,7 +25,7 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if(userRepository.findByEmail("admin@gmail.com").isEmpty()){
+        if (userRepository.findByEmail("admin@gmail.com").isEmpty()) {
             User admin = new User();
             admin.setEmail(adminEmail);
             admin.setPassword(passwordEncoder.encode(adminPassword));

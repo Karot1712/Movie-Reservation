@@ -1,7 +1,6 @@
 package com.karot.mrs.backend.controller;
 
 import com.karot.mrs.backend.dto.request.RegisterRequest;
-import com.karot.mrs.backend.dto.response.LoginResponse;
 import com.karot.mrs.backend.dto.response.UserDto;
 import com.karot.mrs.backend.exception.MrsException;
 import com.karot.mrs.backend.service.UserService;
