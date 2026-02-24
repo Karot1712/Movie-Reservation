@@ -47,13 +47,18 @@ public class ShowtimeSeat {
         createdAt = LocalDateTime.now();
     }
 
-    public boolean isLockedExpired() {
-        return seatStatus == SeatStatus.LOCKED && lockedUntil != null && LocalDateTime.now().isAfter(lockedUntil);
+    public boolean isLockedExpired(LocalDateTime now) {
+        return seatStatus == SeatStatus.LOCKED && lockedUntil != null && now.isAfter(lockedUntil);
     }
 
     public void lock(int minutes){
         this.seatStatus = SeatStatus.LOCKED;
         this.lockedUntil = LocalDateTime.now().plusMinutes(minutes);
+    }
+
+    public void releaseLock(){
+        this.seatStatus = SeatStatus.AVAILABLE;
+        this.lockedUntil = null;
     }
 
     public void markSold(){

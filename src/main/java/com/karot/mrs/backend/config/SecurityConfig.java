@@ -20,6 +20,8 @@ import com.karot.mrs.backend.security.JwtAuthFilter;
 
 import lombok.RequiredArgsConstructor;
 
+import java.time.Clock;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -55,5 +57,10 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
             throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
+    public Clock clock(){
+        return Clock.systemDefaultZone();
     }
 }
