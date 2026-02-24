@@ -6,5 +6,5 @@ import java.util.List;
 
 @Data
 public class SeatActionRequest {
-    private List<Long> seatId;
+    private List<Long> seatIds;
 }

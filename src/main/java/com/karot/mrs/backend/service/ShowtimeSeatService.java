@@ -1,7 +1,6 @@
 package com.karot.mrs.backend.service;
 
 import com.karot.mrs.backend.dto.SeatStatus;
-import com.karot.mrs.backend.dto.request.SeatActionRequest;
 import com.karot.mrs.backend.dto.response.ShowtimeSeatDto;
 import com.karot.mrs.backend.entity.ShowtimeSeat;
 import com.karot.mrs.backend.exception.MrsException;
@@ -24,9 +23,10 @@ public class ShowtimeSeatService {
     private final int HOLD_MINUTES = 5;
 
     @Transactional
-    public List<ShowtimeSeatDto> lockSeats(Long showtimeId, SeatActionRequest seatIds) throws MrsException {
-        List<ShowtimeSeat> seatToLock = showtimeSeatRepository.findAllByShowtimeIdAndSeatId(showtimeId,seatIds.getSeatId());
-        if(seatToLock.size() != seatIds.getSeatId().size()){
+    public List<ShowtimeSeatDto> lockSeats(Long showtimeId, List<Long> seatIds) throws MrsException {
+        List<ShowtimeSeat> seatToLock = showtimeSeatRepository.findByShowtime_IdAndSeat_IdIn(showtimeId,seatIds);
+
+        if(seatToLock.size() != seatIds.size()){
             throw new MrsException("SEATS_NOT_FOUND");
         }
         LocalDateTime now = LocalDateTime.now(clock);
@@ -44,30 +44,29 @@ public class ShowtimeSeatService {
                 .toList();
     }
 
+    @Transactional
     public List<ShowtimeSeatDto> getSeats(Long showtimeId){
+        LocalDateTime now = LocalDateTime.now(clock);
         List<ShowtimeSeat> seats = showtimeSeatRepository.findAllByShowtimeId(showtimeId);
+
+        for(ShowtimeSeat seat : seats){
+            if(seat.isLockedExpired(now)){
+                seat.releaseLock();
+            }
+        }
         return seats.stream()
                 .map(showtimeSeatMapper::toDto)
                 .toList();
     }
 
     @Transactional
-    public void confirmSeats(Long showtimeId, SeatActionRequest seatIds) throws MrsException{
-        List<ShowtimeSeat> seats = showtimeSeatRepository.findAllByShowtimeIdAndSeatId(showtimeId,seatIds.getSeatId());
+    public void confirmSeats(Long showtimeId, List<Long> seatIds) throws MrsException{
+        List<ShowtimeSeat> seats = showtimeSeatRepository.findByShowtime_IdAndSeat_IdIn(showtimeId,seatIds);
         for(ShowtimeSeat seat: seats){
             seat.markSold();
         }
     }
 
 
-    @Transactional
-    public void releaseExpiredLocks(Long showtimeId){
-        LocalDateTime now = LocalDateTime.now(clock);
-        List<ShowtimeSeat> seats = showtimeSeatRepository.findByShowtimeIdAndSeatStatus(showtimeId,SeatStatus.LOCKED);
-        for(ShowtimeSeat seat : seats){
-            if(seat.isLockedExpired(now)){
-                seat.releaseLock();
-            }
-        }
-    }
+
 }

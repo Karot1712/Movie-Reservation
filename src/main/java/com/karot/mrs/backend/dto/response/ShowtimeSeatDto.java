@@ -19,7 +19,8 @@ public class ShowtimeSeatDto {
     private Long showtimeId;
     private Long seatId;
     private String seatCode;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime startTime;
+    private LocalDateTime lockedUntil;
 
 }

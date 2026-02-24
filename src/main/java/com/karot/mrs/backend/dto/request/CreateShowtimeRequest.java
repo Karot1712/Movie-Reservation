@@ -19,8 +19,8 @@ public class CreateShowtimeRequest {
     @NotNull(message = "Movie id is required.")
     private Long movieId;
 
-    @NotNull(message = "Room id is required.")
-    private Long roomId;
+//    @NotNull(message = "Room id is required.")
+//    private Long roomId;
 
     @NotNull(message = "Start time is required.")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

@@ -6,11 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface ShowtimeSeatRepository extends JpaRepository<ShowtimeSeat,Long> {
     List<ShowtimeSeat> findByShowtimeIdAndSeatStatus(Long showtimeId, SeatStatus seatStatus);
-    List<ShowtimeSeat> findAllByShowtimeIdAndSeatId(Long showtimeId, List<Long> seatId);
+    List<ShowtimeSeat> findByShowtime_IdAndSeat_IdIn(Long showtimeId, List<Long> seatId);
     List<ShowtimeSeat> findAllByShowtimeId(Long showtimeId);
 }

@@ -37,7 +37,7 @@ public class Room {
     @JoinColumn(name = "theater_id")
     private Theater theater;
 
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
     private List<Seat> seats;
 
     @OneToMany(mappedBy = "room",fetch = FetchType.LAZY)
