@@ -1,23 +1,28 @@
 ## Movie Reservation – Backend Service
 
-A Spring Boot–based REST API for managing movies, theaters, rooms, showtimes, seats, and reservations for an online movie ticketing platform.
+A production‑style Spring Boot backend for an online cinema ticketing platform.  
+It manages movies, theaters, rooms, showtimes, seats, reservations, and tickets with JWT authentication, seat locking, and QR‑based tickets.
 
 ---
 
 ## Introduction
 
-The **Movie Reservation** project is a backend service that provides all core capabilities required by a cinema or online ticketing platform:
+The **Movie Reservation** project is a backend service that provides the core capabilities required by a modern cinema or online ticketing system:
 
-- Manage movies, theaters, rooms, and seats.
-- Publish showtimes and seat availability.
-- Reserve seats and issue tickets.
-- Secure access with JWT-based authentication and role-based authorization.
+- Manage movies, theaters, rooms, and seating layouts
+- Publish showtimes and seat availability
+- Reserve seats with proper locking and expiration
+- Issue tickets with QR codes for check‑in
+- Protect APIs with JWT‑based authentication and role‑based authorization
 
-This README is written to the standard you’d expect from large, production-grade projects (Vercel, Next.js, Supabase, Stripe) and is intended for:
+This documentation is intended for:
 
-- **Backend engineers** integrating or extending the API  
-- **Frontend/mobile developers** consuming the REST endpoints  
-- **DevOps/SRE teams** deploying and operating the service  
+- **Backend engineers** extending or integrating with the API
+- **Frontend / mobile developers** building customer or admin UIs
+- **DevOps / SRE teams** deploying and operating the service
+- **Interviewers & reviewers** evaluating this project as portfolio work
+
+> Note: This repository currently focuses on the **backend**. A separate frontend can consume these REST APIs.
 
 ---
 
