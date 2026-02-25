@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -18,7 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "tickets", uniqueConstraints = @UniqueConstraint(columnNames = {"reservation_id", "seat_id"}))
+@Table(name = "tickets")
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -30,16 +29,12 @@ public class Ticket {
     @ManyToOne(fetch = FetchType.LAZY)
     private Reservation reservation;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "seat_id", nullable = false)
-    private Seat seat;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "showtime_seat_id", nullable = false)
-    private ShowtimeSeat showtimeSeat;
-
     private BigDecimal totalPrice;
-    @OneToMany
+
+    @Column(nullable = false, unique = true)
+    private String qrCode;
+
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TicketSeat> ticketSeats;
     @Version
     private Long version;  // Optimistic locking for concurrent updates

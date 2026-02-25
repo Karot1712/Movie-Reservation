@@ -26,6 +26,10 @@ public class ShowtimeSeat {
     @JoinColumn(name = "seat_id", nullable = false)
     private Seat seat;
 
+    @ManyToOne
+    @JoinColumn(name = "reservation_id")
+    private Reservation reservation;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private SeatStatus seatStatus;
@@ -38,7 +42,7 @@ public class ShowtimeSeat {
 
     @Column(nullable = false)
     @Version
-    private Long version;  // Optimistic locking for seat status updates
+    private Long version;
 
     @PrePersist
     protected void onCreate() {

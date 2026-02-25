@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "reservations", uniqueConstraints = @UniqueConstraint(columnNames = {"show_id", "user_id"}))
+@Table(name = "reservations")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Reservation {
@@ -29,12 +28,8 @@ public class Reservation {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(nullable = false)
-    private Integer seatCount;
-
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ticket> tickets;
-
 
     private LocalDateTime expireAt;
 
@@ -47,12 +42,17 @@ public class Reservation {
 
     @Column(nullable = false)
     private LocalDateTime updatedAt;
-    public boolean isExpired() {
-        return LocalDateTime.now().isAfter(expireAt);
+
+    public boolean isExpired(LocalDateTime now) {
+        return expireAt != null && now.isAfter(expireAt);
     }
 
     public void markExpired(){
         this.reservationStatus = ReservationStatus.EXPIRED;
+    }
+
+    public void markConfirmed() {
+        this.reservationStatus = ReservationStatus.CONFIRMED;
     }
 
     @PreUpdate
