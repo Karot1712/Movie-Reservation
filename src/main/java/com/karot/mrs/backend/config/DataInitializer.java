@@ -36,8 +36,6 @@ public class DataInitializer implements CommandLineRunner {
             userRepository.save(admin);
 
             System.out.println(" Default admin created");
-            System.out.println(" Email: admin@gmail.com");
-            System.out.println(" Password: 12345");
         }
     }
 }
